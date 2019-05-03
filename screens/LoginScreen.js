@@ -5,8 +5,9 @@ import LoginForm from "./LoginForm"; //Goes at the top
 
 const containerStyle = {
   flex: 1,
-  justifyContent: "center",
-  alignItems: "flex-end"
+  flexDirection: "row",
+  alignItems: "center",
+  padding: 16
 };
 
 var config = {
@@ -27,6 +28,10 @@ export default class LoginScreen extends React.Component {
     };
   }
   render() {
-    return <LoginForm navigation={this.props.navigation} />;
+    return (
+      <View style={containerStyle}>
+        <LoginForm navigation={this.props.navigation} />
+      </View>
+    );
   }
 }

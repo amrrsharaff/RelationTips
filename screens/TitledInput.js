@@ -6,12 +6,13 @@ export const TitledInput = ({
   value,
   onChangeText,
   placeholder,
-  secureTextEntry
+  secureTextEntry,
+  style
 }) => {
   const { inputStyle, labelStyle, containerStyle } = styles;
 
   return (
-    <View style={containerStyle}>
+    <View style={[style, containerStyle]}>
       <Text style={labelStyle}>{label.toUpperCase()}</Text>
       <TextInput
         autoCorrect={false}
@@ -27,8 +28,7 @@ export const TitledInput = ({
 
 const styles = {
   inputStyle: {
-    paddingRight: 5,
-    paddingLeft: 5,
+    paddingHorizontal: 5,
     paddingBottom: 2,
     color: "#262626",
     fontSize: 18,

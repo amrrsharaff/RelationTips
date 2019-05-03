@@ -4,6 +4,10 @@ import firebase from "firebase";
 import { TitledInput } from "./TitledInput";
 import Spinner from "./Spinner";
 
+const SignUpButton = ({ onPress }) => (
+  <Button style={[styles.general]} onPress={onPress} title="Sign up" />
+);
+
 export default class LoginForm extends Component {
   constructor(props) {
     super(props);
@@ -14,11 +18,6 @@ export default class LoginForm extends Component {
       loading: false,
       loggedIn: false
     };
-  }
-  SignUpButton() {
-    if (!this.state.loading) {
-      return <Button onPress={this.onSignupPress.bind(this)} title="Sign up" />;
-    }
   }
 
   signInAsync = async email => {
@@ -47,7 +46,7 @@ export default class LoginForm extends Component {
         });
       });
   }
-  onSignupPress() {
+  onSignUpPress() {
     this.setState({ error: "", loading: true });
 
     const { email, password } = this.state;
@@ -57,11 +56,11 @@ export default class LoginForm extends Component {
       .then(response => {
         console.log(response);
         this.setState({ error: "", loading: false, loggedIn: true });
-        alert("Sign up sucessful");
-        signInAsync(email);
+        alert("Sign up successful");
+        this.signInAsync(email);
       })
       .catch(error => {
-        alert(error.Error);
+        alert(error);
         this.setState({
           error: "Authentication failed.",
           loading: false,
@@ -73,18 +72,29 @@ export default class LoginForm extends Component {
     if (this.state.loading) {
       return Spinner();
     }
-    return <Button onPress={this.onLoginPress.bind(this)} title="Log in" />;
+    return (
+      <Button
+        style={[styles.general]}
+        onPress={this.onLoginPress.bind(this)}
+        title="Log in"
+      />
+    );
   }
   render() {
     return (
-      <View>
+      <View style={{ flex: 1 }}>
         <TitledInput
+          style={[styles.general]}
           label="Email Address"
+          autoCapitalize="none"
+          keyboardType="email-address"
+          textContentType="emailAddress"
           placeholder="you@domain.com"
           value={this.state.email}
           onChangeText={email => this.setState({ email })}
         />
         <TitledInput
+          style={[styles.general]}
           label="Password"
           autoCorrect={false}
           placeholder="*******"
@@ -92,18 +102,27 @@ export default class LoginForm extends Component {
           value={this.state.password}
           onChangeText={password => this.setState({ password })}
         />
-        <Text style={styles.errorTextStyle}>{this.state.error}</Text>
-        {this.renderButtonOrSpinner()}
-        {this.SignUpButton()}
+        <Text style={[styles.errorTextStyle]}>{this.state.error}</Text>
+        <View style={[styles.loginContainer]}>
+          {this.renderButtonOrSpinner()}
+        </View>
+        {!this.state.loading && (
+          <SignUpButton onPress={this.onSignUpPress.bind(this)} />
+        )}
       </View>
     );
   }
 }
 const styles = {
+  general: {
+    margin: 8
+  },
+  loginContainer: {
+    paddingBottom: 16
+  },
   errorTextStyle: {
     color: "#E64A19",
     alignSelf: "center",
-    paddingTop: 10,
-    paddingBottom: 10
+    paddingVertical: 10
   }
 };
