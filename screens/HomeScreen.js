@@ -38,8 +38,9 @@ export default class HomeScreen extends React.Component {
           for you!
         </Text>
         <TextInput
+          multiline={true}
+          numberOfLines={4}
           style={{
-            height: 30,
             borderColor: "gray",
             borderWidth: 1,
             width: "90%",
